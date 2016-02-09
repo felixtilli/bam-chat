@@ -1,0 +1,71 @@
+body{
+    margin: 0;
+    font-family: sans-serif;
+}
+
+#messages{
+    height: calc(100% - 50px);
+    box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 1em 1em 0 1em;
+}
+
+.message{
+    word-break: break-word;
+}
+
+.message:last-of-type{
+    padding-bottom: 1em;
+}
+
+#messages .message .userName{
+    font-weight: 600;
+}
+
+#footer{
+    position: fixed;
+    bottom: 0;
+    background-color: #191926;
+    width:100%;
+}
+
+#footer form{
+    margin-bottom: 0;
+}
+
+#footer form .text{
+    -webkit-appearance: none;
+    outline: 0;
+    border: 0;
+    line-height: 50px;
+    background-color: #191926;
+    color: #FFF;
+    width: calc(100% - 120px);
+    padding: 0 1em;
+}
+
+#footer form .button{
+    height: 100%;
+    width: 5em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #3498db;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+#footer form .button:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}

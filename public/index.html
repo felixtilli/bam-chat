@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+        <script src="app.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body ng-app="chat">
+        <div ng-controller="mainCtrl">
+            <div id="messages">
+                <div class="message" ng-repeat="message in messages">
+                    <span class="userName" ng-bind="message.userName"></span>:
+                    <span ng-bind="message.text"></span>
+                </div>
+            </div>
+            <div id="footer">
+                <form ng-submit="submit()">
+                    <input type="text" class="text" ng-model="text"></input>
+                    <input type="submit" class="button" value="BAM!"></input>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
