@@ -1,22 +1,28 @@
 body{
     margin: 0;
     font-family: sans-serif;
+    height: 100%;
 }
 
 #messages{
-    height: calc(100% - 50px);
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
-    padding: 1em 1em 0 1em;
+    padding: 1em 1em 0em 1em;
+    max-height: calc(100% - 50px);
 }
 
 .message{
     word-break: break-word;
+    padding-bottom: 3px;
 }
 
-.message:last-of-type{
+.message:last-child{
     padding-bottom: 1em;
+}
+
+.message .info{
+    font-style: italic;
 }
 
 #messages .message .userName{
@@ -38,9 +44,9 @@ body{
     -webkit-appearance: none;
     outline: 0;
     border: 0;
-    line-height: 50px;
+    height: 50px;
     background-color: #191926;
     color: #FFF;
     width: calc(100%);
-    padding: 0 1em;
+    padding: 1em;
 }
