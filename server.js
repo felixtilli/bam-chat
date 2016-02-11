@@ -34,7 +34,8 @@ io.on('connection', function(socket){
         
         io.emit('new message', {
             userName: socket.userName,
-            text: text
+            text: text, 
+            date: new Date()
         });
     });
 });

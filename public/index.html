@@ -10,6 +10,7 @@
         <div ng-controller="mainCtrl">
             <div id="messages">
                 <div class="message" ng-repeat="message in messages">
+                    [<span ng-bind="message.date | date:'HH:mm:ss'"></span>]
                     <span class="userName" ng-bind="message.userName"></span>:
                     <span ng-bind="message.text"></span>
                 </div>
