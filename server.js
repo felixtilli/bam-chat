@@ -1,7 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
-
 var app = express();
 var http = require("http").createServer(app);
 var io = require("socket.io").listen(http);
@@ -34,32 +33,15 @@ var getUsers = function(){
     return users.slice(0, -2);
 }
  
-var handleMessage = function(socket, text){
-    if(!text || text.length === 0){
-        return;
-    }
-    
-    if(text.length > 500){
-        text = text.substring(0, 500);
-    }
-    
-    if(text === "/help"){
-        socket.emit("new message", {
-            text: "Avaliable commands: '/help', '/username [username]', '/users'",
-            type: 2
-        });
-        
-        return;
-    }
-    
+var handleSettingMessage = function(socket, text){
     if (text.substring(0, 10) === "/username ") {
         var userName = text.replace(/ /g,'').substring(9, 30);
         var oldUserName = socket.userName;
         socket.userName = userName;
         
-        socket.emit("new message", {
+        socket.emit("new username", {
             text: "You changed username to " + userName + ".",
-            type: 2
+            userName: userName
         });
         
         socket.broadcast.emit("new message", {
@@ -79,7 +61,14 @@ var handleMessage = function(socket, text){
         return;
     }
     
-    io.emit("new message", {
+    socket.emit("new message", {
+        text: "Available commands: '/help', '/username [username]', '/users'",
+        type: 2
+    });
+}
+
+var handleChatMessage = function(socket, text){
+    socket.broadcast.emit("new message", {
         userName: socket.userName,
         text: text, 
         date: new Date(), 
@@ -88,11 +77,17 @@ var handleMessage = function(socket, text){
 }
 
 io.on("connection", function(socket){
-    socket.userName = getRandomString();
+    var cookie = socket.client.request.headers.cookie;
     
-    socket.emit("new message", {
-        text: "Hi, " + socket.userName + ". Write '/help' to display avaliable commands.", 
-        type: 2
+    if (cookie.indexOf("username=") > -1){
+        socket.userName = cookie.split("username=")[1].replace(/ /g,'').substring(0, 30);
+    } else {
+        socket.userName = getRandomString();
+    }
+    
+    socket.emit("new username", {
+        text: "Hi, " + socket.userName + ". Write '/help' to display avaliable commands.",
+        userName: socket.userName
     });
     
     socket.broadcast.emit("new message", {
@@ -108,7 +103,19 @@ io.on("connection", function(socket){
     });
     
     socket.on("message", function(text){
-        handleMessage(socket, text);
+        if(!text || text.length === 0){
+            return;
+        }
+        
+        if(text.length > 500){
+            text = text.substring(0, 500);
+        }
+        
+        if(text.indexOf("/") > -1){
+            handleSettingMessage(socket, text);
+        } else {
+            handleChatMessage(socket, text);
+        }
     });
 });
 
