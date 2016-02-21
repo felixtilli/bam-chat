@@ -59,11 +59,14 @@ app.controller('mainCtrl', function($scope, $timeout, $window){
     }, true);
     
     $scope.submit = function(){
-        if(!$scope.text || $scope.text.length === 0 || $scope.text.length > limit){
+        if(userName == "" || 
+            !$scope.text || 
+            $scope.text.length === 0 || 
+            $scope.text.length > limit){
             return;
         }
         
-        if(!($scope.text.indexOf("/") > -1)){
+        if(!($scope.text.substring(0, 1) == "/")){
             pushMessage($scope.text, userName, 1, new Date());   
         }
         

@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 var getRandomString = function() {
-	var chars = "ÅÄÖåäöABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 	var string_length = 4;
 	var randomstring = "";
     
@@ -78,8 +78,8 @@ var handleChatMessage = function(socket, text){
 
 io.on("connection", function(socket){
     var cookie = socket.client.request.headers.cookie;
-    
-    if (cookie.indexOf("username=") > -1){
+
+    if (cookie && cookie.indexOf("username=") > -1){
         socket.userName = cookie.split("username=")[1].replace(/ /g,'').substring(0, 30);
     } else {
         socket.userName = getRandomString();
@@ -111,7 +111,7 @@ io.on("connection", function(socket){
             text = text.substring(0, 500);
         }
         
-        if(text.indexOf("/") > -1){
+        if(text.substring(0, 1) == "/"){
             handleSettingMessage(socket, text);
         } else {
             handleChatMessage(socket, text);
